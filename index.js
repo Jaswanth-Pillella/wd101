@@ -13,6 +13,7 @@ dobInput.setAttribute('max', maxDate);
 const form = document.getElementById('registrationForm');
 const entriesTable = document.getElementById('entriesTable');
 
+// Load entries from local storage when the page loads
 window.addEventListener('load', loadEntriesFromLocalStorage);
 
 form.addEventListener('submit', function (event) {
@@ -40,7 +41,7 @@ form.addEventListener('submit', function (event) {
 // Function to save entry to local storage
 function saveEntryToLocalStorage(entry) {
   // Get existing entries from local storage or initialize as an empty array
-  let entries = JSON.parse(localStorage.getItem('formEntries')) || [];
+  let entries = JSON.parse(localStorage.getItem('user-entries')) || [];
   
   // Add the new entry to the array
   entries.push(entry);
@@ -51,8 +52,11 @@ function saveEntryToLocalStorage(entry) {
 
 // Function to load entries from local storage and display them
 function loadEntriesFromLocalStorage() {
-  let entries = JSON.parse(localStorage.getItem('formEntries')) || [];
+  let entries = JSON.parse(localStorage.getItem('user-entries')) || [];
   
+  // Clear the table body to prevent duplicates
+  entriesTable.innerHTML = '';
+
   // Add each entry to the table
   entries.forEach(entry => {
     addEntryToTable(entry);
@@ -61,13 +65,18 @@ function loadEntriesFromLocalStorage() {
 
 // Function to add an entry to the table
 function addEntryToTable(entry) {
-  entriesTable.innerHTML += `
-    <tr>
-      <td class="border px-4 py-2">${entry.name}</td>
-      <td class="border px-4 py-2">${entry.email}</td>
-      <td class="border px-4 py-2">${entry.password}</td>
-      <td class="border px-4 py-2">${entry.dob}</td>
-      <td class="border px-4 py-2">${entry.termsAccepted}</td>
-    </tr>
-  `;
+  // Create a new row and cells
+  let row = entriesTable.insertRow();
+  let cellName = row.insertCell(0);
+  let cellEmail = row.insertCell(1);
+  let cellPassword = row.insertCell(2);
+  let cellDob = row.insertCell(3);
+  let cellTerms = row.insertCell(4);
+  
+  // Set the text content of the cells
+  cellName.textContent = entry.name;
+  cellEmail.textContent = entry.email;
+  cellPassword.textContent = entry.password;
+  cellDob.textContent = entry.dob;
+  cellTerms.textContent = entry.termsAccepted;
 }
