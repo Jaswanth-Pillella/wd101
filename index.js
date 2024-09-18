@@ -13,6 +13,8 @@ dobInput.setAttribute('max', maxDate);
 const form = document.getElementById('registrationForm');
 const entriesTable = document.getElementById('entriesTable');
 
+window.addEventListener('load', loadEntriesFromLocalStorage);
+
 form.addEventListener('submit', function (event) {
   event.preventDefault();
 
